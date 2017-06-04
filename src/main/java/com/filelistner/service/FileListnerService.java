@@ -26,7 +26,7 @@ public class FileListnerService {
 	@Autowired
 	private FileListnerRepo repo;
 	
-	public void fileListner(){
+	public void fileListner() throws InterruptedException{
 		try(WatchService watcher = FileSystems.getDefault().newWatchService();) {
 			
 			//WatchService watcher = FileSystems.getDefault().newWatchService();
@@ -57,7 +57,8 @@ public class FileListnerService {
 					System.out.println(kind.name() + ": " + filecontext);
 
 					if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
-						String fileName = filecontext.getFileName().toString();
+						final String fileName = filecontext.getFileName().toString();
+                        Thread.sleep(300);
 						executor.submit(new Runnable() {
 							
 							@Override
